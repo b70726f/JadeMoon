@@ -1,5 +1,11 @@
+cc_library(
+    name = "jm_int",
+    hdrs = ["src/jm_int.hpp"],
+)
+
 cc_binary(
     name = "jademoonc",
     srcs = ["src/main.cpp"],
+    deps = ["jm_int"],
     visibility = ["//visibility:public"],
 )
