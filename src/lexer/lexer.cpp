@@ -123,6 +123,52 @@ TokenKind Lexer::token_kind_(char const character) const
     switch (character) {
     case '\0':
         return TokenKind::eof;
+    case ';':
+        return TokenKind::semicolon;
+    case ',':
+        return TokenKind::comma;
+    case '.':
+        return TokenKind::dot;
+    case '{':
+        return TokenKind::open_brace;
+    case '}':
+        return TokenKind::close_brace;
+    case '[':
+        return TokenKind::open_bracket;
+    case ']':
+        return TokenKind::close_bracket;
+    case '(':
+        return TokenKind::open_paren;
+    case ')':
+        return TokenKind::close_paren;
+    case '<':
+        return TokenKind::less_then;
+    case '>':
+        return TokenKind::grater_then;
+    case '~':
+        return TokenKind::tilde;
+    case ':':
+        return TokenKind::colon;
+    case '=':
+        return TokenKind::equal;
+    case '!':
+        return TokenKind::bang;
+    case '-':
+        return TokenKind::minus;
+    case '+':
+        return TokenKind::plus;
+    case '*':
+        return TokenKind::star;
+    case '/':
+        return TokenKind::slash;
+    case '&':
+        return TokenKind::and_;
+    case '|':
+        return TokenKind::or_;
+    case '^':
+        return TokenKind::caret;
+    case '%':
+        return TokenKind::percent;
     default:
         return TokenKind::unknown;
     }
