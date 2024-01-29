@@ -12,6 +12,11 @@ char SourceFile::at(u32 index) const
     return source_.at(index);
 }
 
+char const* SourceFile::data() const
+{
+    return source_.data();
+}
+
 u32 SourceFile::length() const
 {
     return source_.size();
