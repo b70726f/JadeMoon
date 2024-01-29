@@ -27,5 +27,12 @@ enum class TokenKind {
     or_,
     caret,
     percent,
+    kw_fn,
+    kw_while,
+    kw_if,
+    kw_else,
+    kw_struct,
+    kw_return,
+    kw_var,
     eof
 };

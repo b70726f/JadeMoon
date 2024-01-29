@@ -75,8 +75,25 @@ std::optional<Token> Lexer::identifier_()
         }
 
         auto lexeme_end = source_file_.position() - 1;
+        auto literal = source_file_.sub_str(lexeme_start, lexeme_end);
 
-        return Token { TokenKind::identifier, source_file_.sub_str(lexeme_start, lexeme_end) };
+        auto keyword = keyword_(literal);
+        if (keyword.has_value()) {
+            return keyword.value();
+        }
+
+        return Token { TokenKind::identifier, literal };
+    }
+
+    return std::nullopt;
+}
+
+std::optional<Token> Lexer::keyword_(std::string const& literal) const
+{
+    for (auto& [keyword_literal, keyword_type] : KeywordMap::map_) {
+        if (literal == keyword_literal) {
+            return Token { keyword_type, literal };
+        }
     }
 
     return std::nullopt;
