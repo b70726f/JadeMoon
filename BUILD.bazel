@@ -1,11 +1,92 @@
+package(default_visibility = ["//visibility:public"])
+
+default_copts = [
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Wuninitialized",
+    "-Wshadow",
+    "-Wundef",
+    "-Winvalid-pch",
+    "-Werror",
+    "-O2",
+    "-Isrc",
+    "-std=c++20",
+]
+
 cc_library(
     name = "jm_int",
-    hdrs = ["src/jm_int.hpp"],
+    hdrs = [
+        "src/jm_int.hpp"
+    ],
+    copts = default_copts,
+)
+
+cc_library(
+    name = "i_source",
+    hdrs = [
+        "src/source/i_source.hpp"
+    ],
+    copts = default_copts,
+)
+
+cc_library(
+    name = "source_file",
+    srcs = [
+        "src/source/source_file.cpp"
+    ],
+    hdrs = [
+        "src/source/source_file.hpp"
+    ],
+    deps = [
+        "i_source",
+        "jm_int"
+    ],
+    copts = default_copts,
+)
+
+cc_library(
+    name = "token",
+    srcs = [
+        "src/token/token.cpp"
+    ],
+    hdrs = [
+        "src/token/token.hpp",
+        "src/token/token_kind.hpp"
+    ],
+    deps = [
+        "jm_int"
+    ],
+    copts = default_copts,
+)
+
+cc_library(
+    name = "lexer",
+    srcs = [
+        "src/lexer/lexer.cpp",
+        "src/lexer/source_file_handler.cpp"
+    ],
+    hdrs = [
+        "src/lexer/lexer.hpp",
+        "src/lexer/source_file_handler.hpp"
+    ],
+    deps = [
+        "jm_int",
+        "i_source",
+        "token"
+    ],
+    copts = default_copts,
 )
 
 cc_binary(
-    name = "jademoonc",
-    srcs = ["src/main.cpp"],
-    deps = ["jm_int"],
-    visibility = ["//visibility:public"],
+    name = "jmc",
+    srcs = [
+        "src/main.cpp"
+    ],
+    deps = [
+        "jm_int",
+        "lexer",
+        "source_file"
+    ],
+    copts = default_copts,
 )
