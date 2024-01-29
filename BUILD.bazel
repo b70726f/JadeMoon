@@ -68,7 +68,8 @@ cc_library(
     ],
     hdrs = [
         "src/lexer/lexer.hpp",
-        "src/lexer/source_file_handler.hpp"
+        "src/lexer/source_file_handler.hpp",
+        "src/lexer/keyword_map.hpp",
     ],
     deps = [
         "jm_int",

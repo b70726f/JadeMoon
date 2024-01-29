@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <vector>
 
+#include "lexer/keyword_map.hpp"
 #include "lexer/source_file_handler.hpp"
 #include "source/i_source.hpp"
 #include "token/token.hpp"
@@ -20,6 +21,7 @@ private:
     bool is_alpha_(char const) const;
     void discard_whitespaces_();
     std::optional<Token> identifier_();
+    std::optional<Token> keyword_(std::string const&) const;
     std::optional<Token> constant_();
     Token token_();
     TokenKind token_kind_(char const) const;
