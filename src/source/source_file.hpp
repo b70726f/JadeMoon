@@ -20,7 +20,7 @@ public:
 
     char at(u32 index) const override;
     char const* data() const override;
-    u32 length() const;
+    u32 length() const override;
     std::string_view line(u16 const) const override;
     void load();
 
