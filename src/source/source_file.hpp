@@ -19,6 +19,7 @@ public:
     SourceFile(std::filesystem::path const);
 
     char at(u32 index) const override;
+    char const* data() const override;
     u32 length() const;
     std::string_view line(u16 const) const override;
     void load();
