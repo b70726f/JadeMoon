@@ -1,9 +1,15 @@
 #include "token/token.hpp"
 
-Token::Token(TokenKind const kind, std::string const literal)
-    : kind_(kind)
+Token::Token(TokenKind const kind, std::string const literal, bool const chained)
+    : chained_(chained)
+    , kind_(kind)
     , literal_(literal)
 {
+}
+
+bool Token::is_chained() const
+{
+    return chained_;
 }
 
 TokenKind Token::kind() const

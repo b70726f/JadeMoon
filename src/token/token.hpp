@@ -7,11 +7,13 @@
 
 class Token {
 public:
-    Token(TokenKind const, std::string const);
+    Token(TokenKind const, std::string const, bool const = false);
+    bool is_chained() const;
     TokenKind kind() const;
     std::string const literal() const;
 
 private:
+    bool const chained_;
     TokenKind const kind_;
     std::string const literal_;
 };

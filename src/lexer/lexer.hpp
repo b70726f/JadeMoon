@@ -19,7 +19,7 @@ private:
     bool is_whitespace_(char const) const;
     bool is_alphanumeric_(char const) const;
     bool is_alpha_(char const) const;
-    void discard_whitespaces_();
+    bool discard_whitespaces_();
     std::optional<Token> identifier_();
     std::optional<Token> keyword_(std::string const&) const;
     std::optional<Token> constant_();
@@ -27,4 +27,5 @@ private:
     TokenKind token_kind_(char const) const;
 
     SourceFileHandler source_file_;
+    bool whitespace_preceding_;
 };

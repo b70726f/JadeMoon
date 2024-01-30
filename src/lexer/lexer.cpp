@@ -2,6 +2,7 @@
 
 Lexer::Lexer(ISource const& source_file)
     : source_file_(source_file)
+    , whitespace_preceding_(false)
 {
 }
 
@@ -10,7 +11,11 @@ std::vector<Token> Lexer::analise()
     std::vector<Token> tokens;
 
     while (!source_file_.end()) {
-        discard_whitespaces_();
+        whitespace_preceding_ = false;
+
+        if (discard_whitespaces_()) {
+            whitespace_preceding_ = true;
+        }
 
         if (discard_comment_()) {
             continue;
@@ -57,11 +62,18 @@ bool Lexer::is_alpha_(char const character) const
     return std::isalpha(character) || (character == '_');
 }
 
-void Lexer::discard_whitespaces_()
+bool Lexer::discard_whitespaces_()
 {
-    while (!source_file_.end() && is_whitespace_(source_file_.peek())) {
+    if (is_whitespace_(source_file_.peek())) {
         source_file_.discard();
+        while (!source_file_.end() && is_whitespace_(source_file_.peek())) {
+            source_file_.discard();
+        }
+
+        return true;
     }
+
+    return false;
 }
 
 std::optional<Token> Lexer::identifier_()
@@ -129,7 +141,7 @@ Token Lexer::token_()
         return constant.value();
     }
 
-    auto token = Token { token_kind_(source_file_.peek()), std::string { source_file_.peek() } };
+    auto token = Token { token_kind_(source_file_.peek()), std::string { source_file_.peek() }, !whitespace_preceding_ };
     source_file_.discard();
 
     return token;
