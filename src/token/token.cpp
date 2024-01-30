@@ -7,6 +7,11 @@ Token::Token(TokenKind const kind, std::string const literal, bool const chained
 {
 }
 
+bool Token::is(TokenKind const kind) const
+{
+    return kind_ == kind;
+}
+
 bool Token::is_chained() const
 {
     return chained_;

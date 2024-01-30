@@ -8,6 +8,7 @@
 class Token {
 public:
     Token(TokenKind const, std::string const, bool const = false);
+    bool is(TokenKind const) const;
     bool is_chained() const;
     TokenKind kind() const;
     std::string const literal() const;
