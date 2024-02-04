@@ -46,7 +46,9 @@ void SourceFile::load()
 
 std::vector<char> SourceFile::load_file_to_memory(std::ifstream& file)
 {
-    return { std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>() };
+    auto file_buffer = std::vector<char> { std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>() };
+    file_buffer.push_back('\0');
+    return file_buffer;
 }
 
 void SourceFile::make_metadata()
