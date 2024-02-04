@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "jm_int.hpp"
+#include "jmc/types.hpp"
 #include "token/token_kind.hpp"
 
 class Token {
