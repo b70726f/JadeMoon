@@ -7,10 +7,10 @@
 #include <utility>
 #include <vector>
 
-#include "jm_int.hpp"
+#include "jmc/types.hpp"
 #include "source/i_source.hpp"
 
-class SourceFile : public ISource {
+class SourceFile : public ISource<char> {
     using LineData = std::pair<u16 const, u16 const>;
     using LineDetails = std::vector<LineData>;
 
@@ -18,14 +18,14 @@ public:
     ~SourceFile() = default;
     SourceFile(std::filesystem::path const);
 
-    char at(u32 index) const override;
+    char at(u32) const override;
     char const* data() const override;
     u32 length() const override;
-    std::string_view line(u16 const) const override;
+    std::string_view line(u16 const) const;
     void load();
 
 private:
-    inline std::vector<char> load_file_to_memory(std::ifstream& file);
+    inline std::vector<char> load_file_to_memory(std::ifstream&);
     inline void make_metadata();
 
     LineDetails lines_details_;

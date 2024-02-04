@@ -4,14 +4,14 @@
 #include <stdexcept>
 #include <vector>
 
+#include "handlers/source_handler.hpp"
 #include "lexer/keyword_map.hpp"
-#include "lexer/source_file_handler.hpp"
 #include "source/i_source.hpp"
 #include "token/token.hpp"
 
 class Lexer {
 public:
-    Lexer(ISource const&);
+    Lexer(ISource<char> const&);
     std::vector<Token> analise();
 
 private:
@@ -26,6 +26,6 @@ private:
     Token token_();
     TokenKind token_kind_(char const) const;
 
-    SourceFileHandler source_file_;
+    SourceHandler<char> source_file_;
     bool whitespace_preceding_;
 };

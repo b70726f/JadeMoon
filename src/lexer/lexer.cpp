@@ -1,6 +1,15 @@
 #include "lexer/lexer.hpp"
 
-Lexer::Lexer(ISource const& source_file)
+namespace detail {
+std::string sub_str(ISource<char> const& source, u16 const position_start, u16 const position_end)
+{
+    auto string_begin = source.data() + position_start;
+    std::size_t length = (position_end - position_start + 1);
+    return std::string { string_begin, length };
+}
+} // namspace detail
+
+Lexer::Lexer(ISource<char> const& source_file)
     : source_file_(source_file)
     , whitespace_preceding_(false)
 {
@@ -87,7 +96,7 @@ std::optional<Token> Lexer::identifier_()
         }
 
         auto lexeme_end = source_file_.position() - 1;
-        auto literal = source_file_.sub_str(lexeme_start, lexeme_end);
+        auto literal = detail::sub_str(source_file_.raw(), lexeme_start, lexeme_end);
 
         auto keyword = keyword_(literal);
         if (keyword.has_value()) {
@@ -123,7 +132,7 @@ std::optional<Token> Lexer::constant_()
 
         auto constant_end = source_file_.position() - 1;
 
-        return Token { TokenKind::constant, source_file_.sub_str(constant_start, constant_end) };
+        return Token { TokenKind::constant, detail::sub_str(source_file_.raw(), constant_start, constant_end) };
     }
 
     return std::nullopt;

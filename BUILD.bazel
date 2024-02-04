@@ -15,9 +15,9 @@ default_copts = [
 ]
 
 cc_library(
-    name = "jm_int",
+    name = "types",
     hdrs = [
-        "src/jm_int.hpp"
+        "src/jmc/types.hpp"
     ],
     copts = default_copts,
 )
@@ -26,6 +26,22 @@ cc_library(
     name = "i_source",
     hdrs = [
         "src/source/i_source.hpp"
+    ],
+    deps = [
+        "concepts",
+    ],
+    copts = default_copts,
+)
+
+cc_library(
+    name = "source_handler",
+    hdrs = [
+        "src/handlers/source_handler.hpp"
+    ],
+    deps = [
+        "types",
+        "i_source",
+        "concepts"
     ],
     copts = default_copts,
 )
@@ -40,7 +56,7 @@ cc_library(
     ],
     deps = [
         "i_source",
-        "jm_int"
+        "types"
     ],
     copts = default_copts,
 )
@@ -55,7 +71,7 @@ cc_library(
         "src/token/token_kind.hpp"
     ],
     deps = [
-        "jm_int"
+        "types"
     ],
     copts = default_copts,
 )
@@ -64,17 +80,24 @@ cc_library(
     name = "lexer",
     srcs = [
         "src/lexer/lexer.cpp",
-        "src/lexer/source_file_handler.cpp"
     ],
     hdrs = [
         "src/lexer/lexer.hpp",
-        "src/lexer/source_file_handler.hpp",
         "src/lexer/keyword_map.hpp",
     ],
     deps = [
-        "jm_int",
+        "types",
         "i_source",
-        "token"
+        "token",
+        "source_handler"
+    ],
+    copts = default_copts,
+)
+
+cc_library(
+    name = "concepts",
+    hdrs = [
+        "src/jmc/concepts.hpp"
     ],
     copts = default_copts,
 )
@@ -85,7 +108,7 @@ cc_binary(
         "src/main.cpp"
     ],
     deps = [
-        "jm_int",
+        "types",
         "lexer",
         "source_file"
     ],
