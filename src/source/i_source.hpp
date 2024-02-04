@@ -1,13 +1,15 @@
 #pragma once
 
 #include <string_view>
+#include <type_traits>
 
-#include "jm_int.hpp"
+#include "jmc/concepts.hpp"
+#include "jmc/types.hpp"
 
+template <jmc::NonPtrNonRef T>
 class ISource {
 public:
-    virtual char at(u32 index) const = 0;
-    virtual char const* data() const = 0;
+    virtual std::remove_const_t<T> at(u32) const = 0;
+    virtual T const* data() const = 0;
     virtual u32 length() const = 0;
-    virtual std::string_view line(u16 const) const = 0;
 };
