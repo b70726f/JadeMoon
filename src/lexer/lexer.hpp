@@ -11,7 +11,7 @@
 
 class Lexer {
 public:
-    Lexer(ISource<char> const&);
+    Lexer(std::vector<char> const&);
     std::vector<Token> analise();
 
 private:

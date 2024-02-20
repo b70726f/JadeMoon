@@ -1,7 +1,12 @@
 #include "lexer/lexer.hpp"
 
 namespace detail {
-std::string sub_str(ISource<char> const& source, u16 const position_start, u16 const position_end)
+char peek_char(SourceHandler<char>& source_handler)
+{
+    return source_handler.peek().value_or('\0');
+}
+
+std::string sub_str(std::vector<char> const& source, u16 const position_start, u16 const position_end)
 {
     auto string_begin = source.data() + position_start;
     std::size_t length = (position_end - position_start + 1);
@@ -9,7 +14,7 @@ std::string sub_str(ISource<char> const& source, u16 const position_start, u16 c
 }
 } // namspace detail
 
-Lexer::Lexer(ISource<char> const& source_file)
+Lexer::Lexer(std::vector<char> const& source_file)
     : source_file_(source_file)
     , whitespace_preceding_(false)
 {
@@ -19,7 +24,7 @@ std::vector<Token> Lexer::analise()
 {
     std::vector<Token> tokens;
 
-    while (!source_file_.end()) {
+    while (!source_file_.eos()) {
         whitespace_preceding_ = false;
 
         if (discard_whitespaces_()) {
@@ -40,7 +45,7 @@ bool Lexer::discard_comment_()
 {
     if (source_file_.match('#')) {
         if (source_file_.match('#')) {
-            while (!source_file_.end()) {
+            while (!source_file_.eos()) {
                 if (source_file_.match('#') && source_file_.match('#')) {
                     return true;
                 }
@@ -50,7 +55,7 @@ bool Lexer::discard_comment_()
 
             throw std::runtime_error("Unterminated comment"); // TODO temporary solution
         } else {
-            while (!source_file_.end() && !source_file_.match('\n')) {
+            while (!source_file_.eos() && !source_file_.match('\n')) {
                 source_file_.discard();
             }
 
@@ -73,9 +78,9 @@ bool Lexer::is_alpha_(char const character) const
 
 bool Lexer::discard_whitespaces_()
 {
-    if (is_whitespace_(source_file_.peek())) {
+    if (is_whitespace_(detail::peek_char(source_file_))) {
         source_file_.discard();
-        while (!source_file_.end() && is_whitespace_(source_file_.peek())) {
+        while (!source_file_.eos() && is_whitespace_(detail::peek_char(source_file_))) {
             source_file_.discard();
         }
 
@@ -87,11 +92,11 @@ bool Lexer::discard_whitespaces_()
 
 std::optional<Token> Lexer::identifier_()
 {
-    if (is_alpha_(source_file_.peek())) {
+    if (is_alpha_(detail::peek_char(source_file_))) {
         auto lexeme_start = source_file_.position();
         source_file_.discard();
 
-        while (is_alphanumeric_(source_file_.peek())) {
+        while (is_alphanumeric_(detail::peek_char(source_file_))) {
             source_file_.discard();
         }
 
@@ -122,11 +127,11 @@ std::optional<Token> Lexer::keyword_(std::string const& literal) const
 
 std::optional<Token> Lexer::constant_()
 {
-    if (std::isdigit(source_file_.peek())) {
+    if (std::isdigit(detail::peek_char(source_file_))) {
         auto constant_start = source_file_.position();
         source_file_.discard();
 
-        while (std::isdigit(source_file_.peek())) {
+        while (std::isdigit(detail::peek_char(source_file_))) {
             source_file_.discard();
         }
 
@@ -150,7 +155,7 @@ Token Lexer::token_()
         return constant.value();
     }
 
-    auto token = Token { token_kind_(source_file_.peek()), std::string { source_file_.peek() }, !whitespace_preceding_ };
+    auto token = Token { token_kind_(detail::peek_char(source_file_)), std::string { detail::peek_char(source_file_) }, !whitespace_preceding_ };
     source_file_.discard();
 
     return token;
@@ -159,8 +164,6 @@ Token Lexer::token_()
 TokenKind Lexer::token_kind_(char const character) const
 {
     switch (character) {
-    case '\0':
-        return TokenKind::eof;
     case ';':
         return TokenKind::semicolon;
     case ',':
