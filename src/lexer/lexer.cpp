@@ -116,9 +116,11 @@ std::optional<Token> Lexer::identifier_()
 
 std::optional<Token> Lexer::keyword_(std::string const& literal) const
 {
-    for (auto& [keyword_literal, keyword_type] : KeywordMap::map_) {
-        if (literal == keyword_literal) {
-            return Token { keyword_type, literal };
+    for (auto const& keyword : KeywordMap::map_) {
+        for (auto const& [keyword_literal, keyword_type] : keyword) {
+            if (literal == keyword_literal) {
+                return Token { keyword_type, literal };
+            }
         }
     }
 
