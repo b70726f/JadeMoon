@@ -38,20 +38,20 @@ void SourceFile::load()
         throw std::runtime_error { "Could not open a file" };
     }
 
-    source_ = load_file_to_memory(file);
+    source_ = load_file_to_memory_(file);
     file.close();
 
-    make_metadata();
+    make_metadata_();
 }
 
-std::vector<char> SourceFile::load_file_to_memory(std::ifstream& file)
+std::vector<char> SourceFile::load_file_to_memory_(std::ifstream& file)
 {
     auto file_buffer = std::vector<char> { std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>() };
     file_buffer.push_back('\0');
     return file_buffer;
 }
 
-void SourceFile::make_metadata()
+void SourceFile::make_metadata_()
 {
     u32 line_start_offset = 0;
     u32 file_offset = 0;
