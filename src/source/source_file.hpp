@@ -23,6 +23,7 @@ public:
     u32 length() const override;
     std::string_view line(u16 const) const;
     void load();
+    std::vector<char> source() const { return source_; }
 
 private:
     inline std::vector<char> load_file_to_memory(std::ifstream&);
