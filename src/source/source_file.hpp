@@ -26,8 +26,8 @@ public:
     std::vector<char> source() const { return source_; }
 
 private:
-    inline std::vector<char> load_file_to_memory(std::ifstream&);
-    inline void make_metadata();
+    inline std::vector<char> load_file_to_memory_(std::ifstream&);
+    inline void make_metadata_();
 
     LineDetails lines_details_;
     std::filesystem::path const path_;
