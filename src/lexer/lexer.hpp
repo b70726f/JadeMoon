@@ -12,7 +12,7 @@
 class Lexer {
 public:
     Lexer(std::vector<char> const&);
-    std::vector<Token> analise();
+    [[nodiscard]] std::vector<Token> analise();
 
 private:
     bool discard_comment_();
