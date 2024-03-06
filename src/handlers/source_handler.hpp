@@ -21,7 +21,7 @@ public:
     bool match(U const)
         requires jmc::IsComparable<T, U>;
 
-    std::vector<char> const& raw() const;
+    std::vector<T> const& raw() const;
 
 private:
     inline bool is_end_(u32) const;
@@ -87,7 +87,7 @@ inline bool SourceHandler<T>::is_end_(u32 position) const
 }
 
 template <jmc::NonPtrNonRef T>
-std::vector<char> const& SourceHandler<T>::raw() const
+std::vector<T> const& SourceHandler<T>::raw() const
 {
     return source_;
 }
