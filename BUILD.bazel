@@ -102,6 +102,25 @@ cc_library(
     copts = default_copts,
 )
 
+cc_library(
+    name = "command_line",
+    hdrs = [
+        "src/command_line/command_line.hpp",
+        "src/command_line/option_builder.hpp",
+        "src/command_line/option.hpp"
+    ],
+    srcs = [
+        "src/command_line/command_line.cpp",
+        "src/command_line/option_builder.cpp",
+        "src/command_line/option.cpp"
+    ],
+    deps = [
+        "types",
+        "source_handler"
+    ],
+    copts = default_copts
+)
+
 cc_binary(
     name = "jmc",
     srcs = [
@@ -110,7 +129,8 @@ cc_binary(
     deps = [
         "types",
         "lexer",
-        "source_file"
+        "source_file",
+        "command_line"
     ],
     copts = default_copts,
 )
