@@ -14,7 +14,7 @@ public:
 
     void discard();
     bool eos();
-    std::optional<T> peek(u8 const = 0);
+    std::optional<T> peek(u8 const = 0) const;
     u32 position() const;
 
     template <jmc::NonPtrNonRef U>
@@ -65,7 +65,7 @@ bool SourceHandler<T>::match(U const target)
 }
 
 template <jmc::NonPtrNonRef T>
-std::optional<T> SourceHandler<T>::peek(u8 const look_ahead)
+std::optional<T> SourceHandler<T>::peek(u8 const look_ahead) const
 {
     if (is_end_(position_ + look_ahead)) {
         return std::nullopt;
