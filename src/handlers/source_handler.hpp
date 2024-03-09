@@ -26,7 +26,7 @@ public:
 private:
     inline bool is_end_(u32) const;
 
-    std::vector<T> const& source_;
+    std::vector<T> const source_;
     u32 position_;
 };
 
