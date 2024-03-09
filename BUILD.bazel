@@ -121,6 +121,21 @@ cc_library(
     copts = default_copts
 )
 
+cc_library(
+    name = "parser",
+    hdrs = [
+        "src/parser/parser.hpp"
+    ],
+    srcs = [
+        "src/parser/parser.hpp"
+    ],
+    deps = [
+        "source_handler",
+        "token"
+    ],
+    copts = default_copts
+)
+
 cc_binary(
     name = "jmc",
     srcs = [
