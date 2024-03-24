@@ -34,5 +34,6 @@ enum class TokenKind {
     kw_struct,
     kw_return,
     kw_var,
+    kw_namespace,
     eof
 };
