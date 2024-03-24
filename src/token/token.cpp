@@ -33,3 +33,8 @@ std::string const Token::literal() const
 {
     return literal_;
 }
+
+bool Token::operator==(TokenKind const kind) const
+{
+    return kind_ == kind;
+}

@@ -13,6 +13,7 @@ public:
     bool is_chained() const;
     TokenKind kind() const;
     std::string const literal() const;
+    bool operator==(TokenKind const) const;
 
 private:
     bool const chained_;
